@@ -7,13 +7,21 @@ public class TetrisMain {
         frame.setContentPane(new TetrisGamePanel());
         frame.pack();
         frame.setResizable(false);
-        frame.setContentPane(new TetrisGamePanel());
         frame.setVisible(true);
+        
 
         audioPlayer theme = new audioPlayer("Tetris.wav");
+       
+       //continue looping song while program is running
+        while (true) {
         Thread thread1 = new Thread(theme);
         thread1.start();
-
+        try {
+        Thread.sleep(178000);
+        } catch (InterruptedException e) {
+            break;
+        }
+       }
 
     }
 }

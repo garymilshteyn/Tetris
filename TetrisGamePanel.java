@@ -1,6 +1,8 @@
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+
 import javax.swing.JPanel;
 
 
@@ -29,13 +31,14 @@ public class TetrisGamePanel extends JPanel{
                         if(game.canMove(t, 0, 1)) t.moveDown();
                         break;
                     case KeyEvent.VK_UP:
-                        if(game.atteptRotate(t)) t.rotate();
+                        if(game.attemptRotate(t)) t.rotate();
                         break;
                     case KeyEvent.VK_SPACE:
                         while(game.canMoveDown(t)){
                             t.moveDown();
                         }
                         game.lockCurrentPiece();
+                        game.spawnNewPiece();
                         break;
                 }
                 repaint();
@@ -47,16 +50,30 @@ public class TetrisGamePanel extends JPanel{
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
 
+        g.translate(250, 250);
+
         //Draw locked blocks
         game.getBoard().draw(g);
 
         //Draw current piece
         game.getCurrentPiece().draw(g);
+
+         
+
+
+        //show visible border for game board
+        int width = GameBoard.COLS * GameBoard.BLOCK_SIZE;
+        int height = GameBoard.ROWS * GameBoard.BLOCK_SIZE;
+        g.drawRect(0, 0, width, height);
+
     }
 
     @Override
     public java.awt.Dimension getPreferredSize() {
-        return new java.awt.Dimension(GameBoard.COLS * GameBoard.BLOCK_SIZE, GameBoard.ROWS * GameBoard.BLOCK_SIZE);
+        
+        return new java.awt.Dimension(1000, 1000);
+
+        // return new java.awt.Dimension(GameBoard.COLS * GameBoard.BLOCK_SIZE, GameBoard.ROWS * GameBoard.BLOCK_SIZE);
     }
 
 }

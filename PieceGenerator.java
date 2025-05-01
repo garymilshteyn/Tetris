@@ -3,26 +3,26 @@ import java.util.Random;
 public class PieceGenerator {
     private static final Random rand = new Random();
 
-    public static Tetromino getRandomPiece(int startX, int startY){
+    public static Tetromino getRandomPiece(){
         int r = rand.nextInt(7);
 
         switch(r){
             case 0:
-                return new TetrominoI(startX, startY);
+                return new TetrominoI(5, 0);
             case 1:
-                return new TetrominoO(startX, startY);
+                return new TetrominoO(5, 0);
             case 2:
-                return new TetrominoT(startX, startY);
+                return new TetrominoT(5, 1);
             case 3:
-                return new TetrominoL(startX, startY);
+                return new TetrominoL(5, 2);
             case 4:
-                return new TetrominoJ(startX, startY);
+                return new TetrominoJ(5, 2);
             case 5:
-                return new TetrominoS(startX, startY);
+                return new TetrominoS(5, 0);
             case 6:
-                return new TetrominoZ(startX, startY);
+                return new TetrominoZ(5, 0);
             default:
-                return new TetrominoI(startX, startY);
+                return new TetrominoI(5, 0);
         }
     }
 }

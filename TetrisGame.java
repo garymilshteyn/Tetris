@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
 
 
@@ -11,7 +12,11 @@ public class TetrisGame {
     private boolean lockDelayActive = false;
     private int lockDelayTicks = 0;
     private final int LOCK_DELAY = 1; // 1 tick = 500ms
+    private int lineClears = 0;
+    private int level = 1;
+    private int score;
 
+    
 
     public TetrisGame(){
         board = new GameBoard();
@@ -55,7 +60,7 @@ public class TetrisGame {
     }
 
     public void spawnNewPiece() {
-        currentPiece = PieceGenerator.getRandomPiece(5, 1);
+        currentPiece = PieceGenerator.getRandomPiece();
     }
     
     
@@ -63,6 +68,8 @@ public class TetrisGame {
     public boolean canMoveDown(Tetromino t){
         return canMove(t, 0, 1);
     }
+
+    
     public boolean canMove(Tetromino t, int dx, int dy) {
         for (Block b : t.getBlocks()) {
             int newRow = b.getY() + dy;
@@ -82,8 +89,8 @@ public class TetrisGame {
         return true;
     }
 
-
-    public boolean atteptRotate(Tetromino t) {
+    //check if block can rotate before actually rotating it
+    public boolean attemptRotate(Tetromino t) {
 
 
         Block center = t.getBlocks()[t.getPivot()];
@@ -107,7 +114,7 @@ public class TetrisGame {
         }
 
         // Hit another block
-        if (board.isCellOccupied(newX, newY)) {
+        if (board.isCellOccupied(newY, newX)) {
             return false;
         }
         }
@@ -123,7 +130,43 @@ public class TetrisGame {
 
     public void lockCurrentPiece(){
         board.addTetrominoToGrid(currentPiece);
-        board.clearFullRows();
+        int temp = lineClears;
+        lineClears += board.clearFullRows();
+        calcScore(lineClears, temp);
+
+        //speed up game speed when line clear thresholds are met
+        if (lineClears >= level * 10) {
+            level++;
+
+            if (timer.getDelay() > 100) {
+                timer.setDelay(timer.getDelay() - 100);
+                
+            }
+        }
+
+        System.out.println(timer.getDelay());
+    }
+
+
+    //calculate points player receives after line clears
+    public void calcScore(int newClears, int oldClears) {
+
+        int cleared = newClears - oldClears;
+
+        switch (cleared) {
+            case 1: 
+                score += 100 * level;
+                break;
+            case 2:
+                score += 300 * level;
+                break;
+            case 3:
+                score += 500 * level;
+                break;
+            case 4:
+                score += 800 * level;
+                break;
+        } 
     }
 
     public Tetromino getCurrentPiece(){
