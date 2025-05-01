@@ -8,10 +8,11 @@ public class TetrominoT extends Tetromino {
         blocks[1] = new Block(startX, startY-1, blockSize, color);
         blocks[2] = new Block(startX, startY, blockSize, color);
         blocks[3] = new Block(startX+1, startY, blockSize, color);
+        pivot = 2;
     }
 
     @Override
     public void rotate(){
-        performRotationAroundCenter(2); // block[2] is pivot
+        performRotationAroundCenter(pivot); // block[2] is pivot
     }
 }

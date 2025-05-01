@@ -5,9 +5,14 @@ public abstract class Tetromino {
     protected Block[] blocks = new Block[4];
     protected Color color;
     protected final int blockSize = 30;
+    protected int pivot;
 
     public Tetromino(Color color){
         this.color = color;
+    }
+
+    public int getPivot() {
+        return pivot;
     }
 
     //Move entire shape

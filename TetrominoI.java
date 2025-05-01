@@ -11,7 +11,7 @@ public class TetrominoI extends Tetromino {
         blocks[1] = new Block(startX, startY+1, blockSize, color);
         blocks[2] = new Block(startX, startY+2, blockSize, color);
         blocks[3] = new Block(startX, startY+3, blockSize, color);
-    }
+    }  
 
     @Override
     public void rotate() {

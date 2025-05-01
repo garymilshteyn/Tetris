@@ -29,7 +29,7 @@ public class TetrisGamePanel extends JPanel{
                         if(game.canMove(t, 0, 1)) t.moveDown();
                         break;
                     case KeyEvent.VK_UP:
-                        t.rotate();
+                        if(game.atteptRotate(t)) t.rotate();
                         break;
                     case KeyEvent.VK_SPACE:
                         while(game.canMoveDown(t)){

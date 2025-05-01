@@ -55,7 +55,7 @@ public class TetrisGame {
     }
 
     public void spawnNewPiece() {
-        currentPiece = PieceGenerator.getRandomPiece(5, 0);
+        currentPiece = PieceGenerator.getRandomPiece(5, 1);
     }
     
     
@@ -81,6 +81,44 @@ public class TetrisGame {
     
         return true;
     }
+
+
+    public boolean atteptRotate(Tetromino t) {
+
+
+        Block center = t.getBlocks()[t.getPivot()];
+
+        int cx = center.getX();
+        int cy = center.getY();
+
+        for(Block b : t.getBlocks()){
+            int x = b.getX();
+            int y = b.getY();
+
+            int dx = x - cx;
+            int dy = y - cy;
+
+            int newX = cx - dy;
+            int newY = cy + dx;
+
+            // Out of bounds
+        if (newX < 0 || newX >= GameBoard.COLS || newY < 0  || newY >= GameBoard.ROWS) {
+            return false;
+        }
+
+        // Hit another block
+        if (board.isCellOccupied(newX, newY)) {
+            return false;
+        }
+        }
+
+        
+
+        return true;
+    }
+
+    
+
     
 
     public void lockCurrentPiece(){
