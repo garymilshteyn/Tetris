@@ -8,9 +8,9 @@ public class TetrominoI extends Tetromino {
         super(Color.CYAN);
 
         blocks[0] = new Block(startX, startY, blockSize, color);
-        blocks[1] = new Block(startX, startY+1, blockSize, color);
-        blocks[2] = new Block(startX, startY+2, blockSize, color);
-        blocks[3] = new Block(startX, startY+3, blockSize, color);
+        blocks[1] = new Block(startX + 1, startY, blockSize, color);
+        blocks[2] = new Block(startX + 2, startY, blockSize, color);
+        blocks[3] = new Block(startX + 3, startY, blockSize, color);
     }  
 
     @Override

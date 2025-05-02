@@ -6,6 +6,7 @@ public class TetrisMain {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new TetrisGamePanel());
         frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
         frame.setVisible(true);
         

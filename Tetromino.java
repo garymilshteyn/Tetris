@@ -4,7 +4,7 @@ import java.awt.Graphics;
 public abstract class Tetromino {
     protected Block[] blocks = new Block[4];
     protected Color color;
-    protected final int blockSize = 30;
+    protected final int blockSize = 50;
     protected int pivot;
 
     public Tetromino(Color color){

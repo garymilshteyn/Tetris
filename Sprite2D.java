@@ -13,7 +13,7 @@ public class Sprite2D {
         frame =  0;
     }
 
-    public void Draw(Graphics g) {
-        g.drawImage(imageFrames[frame], 0, 0, null);
+    public void Draw(Graphics g, int width, int height) {
+        g.drawImage(imageFrames[frame], 0, 0, width, height, null);
     }
 }
