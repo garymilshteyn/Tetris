@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 
@@ -57,10 +58,13 @@ public class TetrisGame {
             lockDelayTicks = 0;
         }
     
-        if (repaintCallback != null) repaintCallback.run();}
+        if (repaintCallback != null) repaintCallback.run();
 
+        
+    }
 
-    
+        
+        
     
     
     
@@ -76,6 +80,7 @@ public class TetrisGame {
             timer.stop();
             System.out.println("Game Over");
             gameOver = true;
+            if (gameOver == true) isGameOver();
             return;
         }
     }
@@ -190,6 +195,62 @@ public class TetrisGame {
     public boolean getGameOver() {
 
         return gameOver;
+
+    }
+
+    //prompt user as to whether or not they wish to try again
+    public void isGameOver() {
+
+        //keep looping until a valid answer is provided
+        while(true) { 
+            String input = JOptionPane.showInputDialog("Score = " + score + "pts\n" + "Would you like to try again? y/n" );
+
+            if (input == null) {
+                System.exit(0);
+            }
+
+            if(input.equalsIgnoreCase( "y")) {
+                System.out.print(input);
+                reset();
+                timer.start();
+                break;                }
+            else if (input.equalsIgnoreCase("n")) {
+                System.exit(0);
+            }
+                
+            else {
+                JOptionPane.showMessageDialog(null, "Please enter 'y' or 'n'", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+           
+            
+        }
+
+        
+    }
+
+    
+
+    //reset game for user
+    public void reset() {
+
+        score = 0;
+        lineClears = 0;
+        level = 0;
+        timer.setDelay(500);
+        gameOver = false;
+
+        for (int i = 0; i < 20; i++) {
+
+            board.clearRow(i);
+        }
+
+        lockDelayActive = false;
+        lockDelayTicks = 0;
+
+
+        spawnNewPiece();
+
+        repaintCallback.run();
 
     }
 

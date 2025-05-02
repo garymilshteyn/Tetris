@@ -76,12 +76,16 @@ public class TetrisGamePanel extends JPanel{
         
         g.translate(250, 250);
 
+
+
+
+
         //show visible border for game board
         int width = GameBoard.COLS * GameBoard.BLOCK_SIZE;
         int height = GameBoard.ROWS * GameBoard.BLOCK_SIZE;
         
-        g.setColor(Color.GRAY);
-        g.drawRect(0, 0, width, height);
+        // g.setColor(Color.GRAY);
+        // g.drawRect(0, 0, width, height);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
 

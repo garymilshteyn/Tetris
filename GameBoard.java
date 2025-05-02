@@ -73,7 +73,7 @@ public class GameBoard {
        return lines;
     }
 
-    private boolean isRowFull(int row){
+    public boolean isRowFull(int row){
         for(int col = 0; col < GameBoard.COLS; col++){
             if(grid[row][col] == null){
                 return false;
@@ -82,13 +82,13 @@ public class GameBoard {
         return true;
     }
 
-    private void clearRow(int row){
+    public void clearRow(int row){
         for(int col = 0; col < GameBoard.COLS; col++){
             grid[row][col] = null; 
         }
     }
 
-    private void shiftRowsDown(int startRow){
+    public void shiftRowsDown(int startRow){
         for(int row = startRow; row > 0; row--){
             for(int col = 0; col < GameBoard.COLS; col++){
                 grid[row][col] = grid[row-1][col];
