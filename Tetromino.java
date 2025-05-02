@@ -68,5 +68,44 @@ public abstract class Tetromino {
             b.setX(newX);
             b.setY(newY);
         }
+
     }
+
+
+    //checks for valid rotation before making rotation
+    public boolean canRotate(GameBoard board) {
+        Block center = blocks[getPivot()];
+
+        int cx = center.getX();
+        int cy = center.getY();
+
+        for(Block b : blocks){
+            int x = b.getX();
+            int y = b.getY();
+
+            int dx = x - cx;
+            int dy = y - cy;
+
+            int newX = cx - dy;
+            int newY = cy + dx;
+
+            // Out of bounds
+            if (newX < 0 || newX >= GameBoard.COLS || newY < 0  || newY >= GameBoard.ROWS) {
+                
+                return false;
+            }
+        
+            // Hit another block
+            if (board.isCellOccupied(newY, newX)) {
+                return false;
+            }
+
+        }
+
+        
+
+        return true;
+    }
+
+    
 }

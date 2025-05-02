@@ -36,4 +36,49 @@ public class TetrominoI extends Tetromino {
         isVertical = !isVertical;
     }
 
+    @Override
+    public boolean canRotate(GameBoard gameBoard) {
+
+        Block center = blocks[2];
+        int cx = center.getX();
+        int cy = center.getY();
+
+        int [][] newCoords;
+
+        if (isVertical) {
+            // Rotate to horizontal
+            newCoords = new int [][] {
+                {cx - 2, cy},
+                {cx - 1, cy},
+                {cx,     cy},
+                {cx + 1, cy}
+            };
+        } else {
+            // Rotate to vertical
+            newCoords = new int[][] {
+                {cx, cy -2},
+                {cx, cy -1},
+                {cx,     cy},
+                {cx, cy + 1}
+            };    
+        }
+
+        for (int[] coord : newCoords) {
+            int x = coord[0];
+            int y = coord[1];
+
+            // Out of bounds
+        if (x < 0 || x >= GameBoard.COLS || y < 0  || y >= GameBoard.ROWS) {
+            return false;
+        }
+
+        // Hit another block
+        if (gameBoard.isCellOccupied(y, x)) {
+            return false;
+        }
+    }
+
+    return true;
 }
+}
+

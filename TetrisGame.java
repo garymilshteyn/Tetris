@@ -15,33 +15,40 @@ public class TetrisGame {
     private int lineClears = 0;
     private int level = 1;
     private int score;
+    private boolean gameOver = false;
 
     
 
     public TetrisGame(){
-        board = new GameBoard();
-        spawnNewPiece();
-
-        timer = new Timer(500, new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                updateGame();
-            }
-        });
-        timer.start();
+        
+        
+            
+            board = new GameBoard();
+            spawnNewPiece();
+            
+            timer = new Timer(500, new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    updateGame();
+                }
+            });
+            timer.start();
+        
     }
 
     //Tries to move the current piece down
     private void updateGame() {
+        
+        
         if (lockDelayActive) {
             lockDelayTicks++;
             if (lockDelayTicks >= LOCK_DELAY) {
                 lockDelayActive = false;
                 lockDelayTicks = 0;
                 spawnNewPiece();
+
             }
             return;
         }
-    
         if (canMoveDown(currentPiece)) {
             currentPiece.moveDown();
         } else {
@@ -50,8 +57,10 @@ public class TetrisGame {
             lockDelayTicks = 0;
         }
     
-        if (repaintCallback != null) repaintCallback.run();
-    }
+        if (repaintCallback != null) repaintCallback.run();}
+
+
+    
     
     
     
@@ -61,6 +70,14 @@ public class TetrisGame {
 
     public void spawnNewPiece() {
         currentPiece = PieceGenerator.getRandomPiece();
+
+        
+        if (board.isCellOccupied(0, 5)) {
+            timer.stop();
+            System.out.println("Game Over");
+            gameOver = true;
+            return;
+        }
     }
     
     
@@ -89,39 +106,40 @@ public class TetrisGame {
         return true;
     }
 
-    //check if block can rotate before actually rotating it
+    // check if block can rotate before actually rotating it
     public boolean attemptRotate(Tetromino t) {
 
-
-        Block center = t.getBlocks()[t.getPivot()];
-
-        int cx = center.getX();
-        int cy = center.getY();
-
-        for(Block b : t.getBlocks()){
-            int x = b.getX();
-            int y = b.getY();
-
-            int dx = x - cx;
-            int dy = y - cy;
-
-            int newX = cx - dy;
-            int newY = cy + dx;
-
-            // Out of bounds
-        if (newX < 0 || newX >= GameBoard.COLS || newY < 0  || newY >= GameBoard.ROWS) {
-            return false;
+        if (t.canRotate(board)) {
+            return true;
         }
 
-        // Hit another block
-        if (board.isCellOccupied(newY, newX)) {
-            return false;
-        }
+        for (int i = 0; i < 2; i++) {
+            switch (i) {
+                case 0: //attempt to move piece to right before rotation
+                    if (canMove(t, 1, 0)) {
+                        t.move(1, 0);
+
+                        //recursive call to check if another movement is needed for rotation
+                        attemptRotate(t);
+                        return true;
+                    }
+                    break;
+                case 1: //attempt to move piece to left before rotation
+                    if (canMove(t, -1, 0)) {
+                        t.move(-1, 0);
+
+                        //recursive call to check if another movement is needed for rotation
+                        attemptRotate(t);
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
+        return false;
         
-
-        return true;
     }
 
     
@@ -167,6 +185,12 @@ public class TetrisGame {
                 score += 800 * level;
                 break;
         } 
+    }
+
+    public boolean getGameOver() {
+
+        return gameOver;
+
     }
 
     public Tetromino getCurrentPiece(){
