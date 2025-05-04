@@ -1,15 +1,12 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.ArrayList;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -17,7 +14,6 @@ import javax.swing.JPanel;
 
 public class TetrisGamePanel extends JPanel{
     private TetrisGame game;
-    private ArrayList<Shape2D> shapesList = new ArrayList<>();
 
     public TetrisGamePanel(){
         game = new TetrisGame();
@@ -104,34 +100,30 @@ public class TetrisGamePanel extends JPanel{
         game.getCurrentPiece().draw(g);
         g.translate(-xBuffer, -yBuffer);
         
-        
-        //specifiy location and size of box that holds upcoming piece
-        int xPieceBuffer = xBuffer + (GameBoard.COLS * GameBoard.BLOCK_SIZE) + 10;
-        int yPieceBuffer = (yBuffer + (GameBoard.ROWS * GameBoard.BLOCK_SIZE)) / 2 - 10;
-        width = 5 * GameBoard.BLOCK_SIZE;
-        height = 6 * GameBoard.BLOCK_SIZE;
-        
-        //draw box
-        g.translate(xPieceBuffer, yPieceBuffer);
-        Shape2D nextPiece = new Rectangle2D(Shape2D.BLACK, 0, 0, width, height);
-        nextPiece.setOutlineColorIndex(Shape2D.WHITE);
-        nextPiece.Draw(g);
-        g.translate(-xPieceBuffer, -yPieceBuffer);
-
 
         
         //specify location and size of box that holds current and high scores
-        int xScoreBuffer = xPieceBuffer;
+        int xScoreBuffer = xBuffer + (GameBoard.COLS * GameBoard.BLOCK_SIZE) + 10;
         int yScoreBuffer = (yBuffer + (GameBoard.ROWS * GameBoard.BLOCK_SIZE)) / 15;
         width = 8 * GameBoard.BLOCK_SIZE;
         height = 10 * GameBoard.BLOCK_SIZE;
         
-        //draw box
+        //draw info
         g.translate(xScoreBuffer, yScoreBuffer);
         Shape2D scoreBoard = new Rectangle2D(Shape2D.BLACK, 0, 0, width, height);
         scoreBoard.setOutlineColorIndex(Shape2D.WHITE);
         scoreBoard.Draw(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("High Score", Font.BOLD, GameBoard.BLOCK_SIZE + (GameBoard.BLOCK_SIZE / 2)));
+        g.drawString("Top -", GameBoard.BLOCK_SIZE, GameBoard.BLOCK_SIZE * 2);
+        g.drawString(Integer.toString(game.getHighScore()), GameBoard.BLOCK_SIZE / 2, GameBoard.BLOCK_SIZE * 4);
+        g.drawString("Score -", GameBoard.BLOCK_SIZE, GameBoard.BLOCK_SIZE * 6);
+        g.drawString(Integer.toString(game.getScore()), GameBoard.BLOCK_SIZE / 2, GameBoard.BLOCK_SIZE * 8);
         g.translate(-xScoreBuffer, -yScoreBuffer);
+
+
+
 
 
 
@@ -141,29 +133,46 @@ public class TetrisGamePanel extends JPanel{
         width = GameBoard.COLS * GameBoard.BLOCK_SIZE;
         height = 2 * GameBoard.BLOCK_SIZE + 15;
         
-        //draw box
+        //draw info
         g.translate(xLineBuffer, yLineBuffer);
+
         Shape2D numLinesBoard = new Rectangle2D(Shape2D.BLACK, 0, 0, width, height);
         numLinesBoard.setOutlineColorIndex(Shape2D.WHITE);
         numLinesBoard.Draw(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Lines", Font.BOLD, GameBoard.BLOCK_SIZE + (GameBoard.BLOCK_SIZE / 2)));
+        g.drawString("Lines - " + Integer.toString(game.getLineClear()), GameBoard.BLOCK_SIZE, GameBoard.BLOCK_SIZE * 2);
         g.translate(-xLineBuffer, -yLineBuffer);
 
 
         
+
+
+
+
+
+
+
+
         //specify location and size of box that holds current level
-        int xLevelBuffer = xPieceBuffer;
-        int yLevelBuffer = (yBuffer + (GameBoard.ROWS * GameBoard.BLOCK_SIZE) - 300 );
+        int xLevelBuffer = xBuffer + (GameBoard.COLS * GameBoard.BLOCK_SIZE) + 10;
+        int yLevelBuffer = (yBuffer + (GameBoard.ROWS * GameBoard.BLOCK_SIZE)) / 2 - 10;
         width = 8 * GameBoard.BLOCK_SIZE;
         height = 3 * GameBoard.BLOCK_SIZE;
         
-        //draw box
+        //draw info
         g.translate(xLevelBuffer, yLevelBuffer);
         Shape2D levelBoard = new Rectangle2D(Shape2D.BLACK, 0, 0, width, height);
         levelBoard.setOutlineColorIndex(Shape2D.WHITE);
         levelBoard.Draw(g);
+        
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Level", Font.BOLD,  GameBoard.BLOCK_SIZE + (GameBoard.BLOCK_SIZE / 2)));
+        g.drawString("Level - " + Integer.toString(game.getLevel()), GameBoard.BLOCK_SIZE, GameBoard.BLOCK_SIZE * 2);
         g.translate(-xLevelBuffer, -yLevelBuffer);
 
-
+        
 
         
 

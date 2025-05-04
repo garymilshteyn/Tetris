@@ -15,7 +15,8 @@ public class TetrisGame {
     private final int LOCK_DELAY = 1; // 1 tick = 500ms
     private int lineClears = 0;
     private int level = 1;
-    private int score;
+    private int score = 0;
+    private int highScore = 0;
     private boolean gameOver = false;
 
     
@@ -167,7 +168,6 @@ public class TetrisGame {
             }
         }
 
-        System.out.println(timer.getDelay());
     }
 
 
@@ -233,6 +233,11 @@ public class TetrisGame {
     //reset game for user
     public void reset() {
 
+        
+        if (score > highScore) {
+            highScore = score;
+        }
+
         score = 0;
         lineClears = 0;
         level = 0;
@@ -254,6 +259,7 @@ public class TetrisGame {
 
     }
 
+    //Getters
     public Tetromino getCurrentPiece(){
         return currentPiece;
     }
@@ -261,4 +267,19 @@ public class TetrisGame {
         return board;
     }
     
+    public int getLineClear() {
+        return lineClears;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
 }

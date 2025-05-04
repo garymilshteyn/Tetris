@@ -1,4 +1,3 @@
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
