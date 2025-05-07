@@ -3,7 +3,7 @@ import java.awt.Graphics;
 public class GameBoard {
     public static final int ROWS = 20;
     public static final int COLS = 10;
-    public static final int BLOCK_SIZE = 30;
+    public static final int BLOCK_SIZE = 50;
 
     private Block[][] grid;
 
@@ -59,17 +59,21 @@ public class GameBoard {
         return null;
     }
 
-    public void clearFullRows(){
-       for(int row = GameBoard.ROWS - 1; row >= 0; row--){
+    public int clearFullRows(){
+       int lines = 0;
+       
+        for(int row = GameBoard.ROWS - 1; row >= 0; row--){
         if(isRowFull(row)){
             clearRow(row);
             shiftRowsDown(row);
             row++;
+            lines++;
         }
        }
+       return lines;
     }
 
-    private boolean isRowFull(int row){
+    public boolean isRowFull(int row){
         for(int col = 0; col < GameBoard.COLS; col++){
             if(grid[row][col] == null){
                 return false;
@@ -78,13 +82,13 @@ public class GameBoard {
         return true;
     }
 
-    private void clearRow(int row){
+    public void clearRow(int row){
         for(int col = 0; col < GameBoard.COLS; col++){
-            grid[row][col] = null;
+            grid[row][col] = null; 
         }
     }
 
-    private void shiftRowsDown(int startRow){
+    public void shiftRowsDown(int startRow){
         for(int row = startRow; row > 0; row--){
             for(int col = 0; col < GameBoard.COLS; col++){
                 grid[row][col] = grid[row-1][col];

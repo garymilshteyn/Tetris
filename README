@@ -1,0 +1,15 @@
+- Use left and right arrow keys to move the falling tetrominos
+
+- Up arrow rotates falling piece, down arrow increases speed of falling block
+
+- Spacebar will immediately drop falling piece to lowest possible position
+
+- Filling an entire row will clear that line and cause pieces above to fall
+
+- The more lines cleared at one time, the more points the player earns
+
+- As more lines are cleared, the game speed will increase 
+
+- Game ends when user reaches the top of the screen and is unable to move anymore pieces
+
+- Users are then prompted on whether they wish to try again or close the game
