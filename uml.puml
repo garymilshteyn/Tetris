@@ -1,0 +1,189 @@
+@startuml mainUml
+' ========== MAIN CLASSES ==========
+class TetrisMain {
+    +main(String[] args) : void
+}
+
+class TetrisGamePanel {
+    -game : TetrisGame
+    +TetrisGamePanel()
+    +paintComponent(Graphics g) : void
+}
+
+class TetrisGame {
+    -board : GameBoard
+    -currentPiece : Tetromino
+    -timer : Timer
+    -repaintCallback : Runnable
+    -lockDelayActive : boolean
+    -lockDelayTicks : int
+    -LOCK_DELAY : int
+    -lineClears : int
+    -level : int
+    -score : int
+    -highScore : int
+    -gameOver : boolean
+    +TetrisGame()
+    +setRepaintCallback(Runnable) : void
+    +spawnNewPiece() : void
+    +canMoveDown(Tetromino) : boolean
+    +canMove(Tetromino, int, int) : boolean
+    +attemptRotate(Tetromino) : boolean
+    +lockCurrentPiece() : void
+    +calcScore(int, int) : void
+    +getGameOver() : boolean
+    +isGameOver() : void
+    +reset() : void
+    +getCurrentPiece() : Tetromino
+    +getBoard() : GameBoard
+    +getLineClear() : int
+    +getScore() : int
+    +getLevel() : int
+    +getHighScore() : int
+}
+
+class GameBoard {
+    -grid : Block[][]
+    +GameBoard()
+    +draw(Graphics) : void
+    +addBlock(Block) : void
+    +addTetrominoToGrid(Tetromino) : void
+    +isCellOccupied(int, int) : boolean
+    +isValidPosition(int, int) : boolean
+    +getBlock(int, int) : Block
+    +clearFullRows() : int
+    +isRowFull(int) : boolean
+    +clearRow(int) : void
+    +shiftRowsDown(int) : void
+}
+
+class PieceGenerator {
+    -rand : Random
+    +getRandomPiece() : Tetromino
+}
+
+class audioPlayer {
+    -soundFilePath : String
+    +audioPlayer(String)
+    +run() : void
+    -playSound(String) : void
+}
+
+class Sprite2D {
+    -imageFrames : BufferedImage[]
+    -frame : int
+    +Sprite2D(BufferedImage[])
+    +Draw(Graphics, int, int) : void
+}
+
+' ========== GRAPHICS BASE CLASSES ==========
+
+abstract class Shape2D {
+    -xPos, yPos : int
+    -xVel, yVel : int
+    -fillColor, outlineColor : Color
+    -fillColorIndex, outlineColorIndex : int
+    -fill, outline : boolean
+    -sX, sY, rotAnglez : double
+    +Shape2D()
+    +Shape2D(int, int, int)
+    +Draw(Graphics) : void
+    +move(int, int) : void
+    +Animate() : void
+    +SetPos(int, int) : void
+    +SetSpeed(int, int) : void
+    +[get/set] methods...
+}
+
+class Rectangle2D {
+    -length : int
+    -width : int
+    +Rectangle2D()
+    +Rectangle2D(int, int, int, int, int)
+    +Draw(Graphics) : void
+}
+
+class Block {
+    -x, y : int
+    -size : int
+    -color : Color
+    +Block(int, int, int, Color)
+    +draw(Graphics) : void
+    +move(int, int) : void
+    +get/set methods...
+}
+
+' ========== TETROMINO CLASSES ==========
+
+abstract class Tetromino {
+    -blocks : Block[4]
+    -color : Color
+    -blockSize : int
+    -pivot : int
+    +Tetromino(Color)
+    +move(int, int) : void
+    +moveLeft() : void
+    +moveRight() : void
+    +moveDown() : void
+    +draw(Graphics) : void
+    +getBlocks() : Block[]
+    +getColor() : Color
+    +rotate() : void
+    +canRotate(GameBoard) : boolean
+}
+
+class TetrominoI {
+    -isVertical : boolean
+    +TetrominoI(int, int)
+    +rotate() : void
+    +canRotate(GameBoard) : boolean
+}
+class TetrominoO {
+    +TetrominoO(int, int)
+    +rotate() : void
+}
+class TetrominoT {
+    +TetrominoT(int, int)
+    +rotate() : void
+}
+class TetrominoL {
+    +TetrominoL(int, int)
+    +rotate() : void
+}
+class TetrominoJ {
+    +TetrominoJ(int, int)
+    +rotate() : void
+}
+class TetrominoS {
+    +TetrominoS(int, int)
+    +rotate() : void
+}
+class TetrominoZ {
+    +TetrominoZ(int, int)
+    +rotate() : void
+}
+
+' ========== INHERITANCE ==========
+Shape2D <|-- Rectangle2D
+Tetromino <|-- TetrominoI
+Tetromino <|-- TetrominoO
+Tetromino <|-- TetrominoT
+Tetromino <|-- TetrominoL
+Tetromino <|-- TetrominoJ
+Tetromino <|-- TetrominoS
+Tetromino <|-- TetrominoZ
+
+' ========== ASSOCIATIONS ==========
+TetrisGamePanel --> TetrisGame
+TetrisGame --> GameBoard
+TetrisGame --> Tetromino
+TetrisMain --> TetrisGamePanel
+TetrisMain --> audioPlayer
+GameBoard --> Block
+GameBoard --> Tetromino
+Tetromino --> Block
+PieceGenerator --> Tetromino
+TetrisGamePanel --> Rectangle2D
+TetrisGamePanel --> Sprite2D
+
+@enduml
